@@ -34,11 +34,12 @@ import DataTypes
 --   in [ [ charFor x y | x <- [0..maxX] ] | y <- [0..maxY] ]
 
 printSolutions :: [[Int]] -> [[Coord]] -> IO ()
+printSolutions _ [] = putStr "no path found!\n"
 printSolutions maze paths = do
   let maxX = length maze - 1
       maxY = length (head maze) - 1
   mapM_ (\path -> do
             let maze' = [[if (x,y) `elem` path then 'X' else if (maze !! x !! y) == 0 then '#' else if (x,y) == (0,0) then '8' else if (x,y) == (maxX,maxY) then '9' else ' ' | y <- [0..maxY]] | x <- [0..maxX]]
             mapM_ putStrLn maze'
-            putStrLn ""
+            putStrLn " "
         ) paths

@@ -45,9 +45,11 @@ buildMazeData list = let startAndEnd = getStartAndEnd list in
     Package (buildAdjMatrix (getCordsList (getCords list 0 []))) startAndEnd
 
 getStart :: MazeData -> Coord
+getStart (Package _ Nothing) = (-1,-1)
 getStart (Package _ (Just (start, end))) = start
 
 getEnd:: MazeData -> Coord
+getEnd (Package _ Nothing) = (-1,-1)
 getEnd (Package _ (Just (start, end))) = end
 
 getAdjMatrix :: MazeData -> AdjMatrix
