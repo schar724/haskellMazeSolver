@@ -40,6 +40,6 @@ printSolutions maze paths = do
       maxY = length (head maze) - 1
   mapM_ (\path -> do
             let maze' = [[if (x,y) `elem` path then 'X' else if (maze !! x !! y) == 0 then '#' else if (x,y) == (0,0) then '8' else if (x,y) == (maxX,maxY) then '9' else ' ' | y <- [0..maxY]] | x <- [0..maxX]]
-            mapM_ putStrLn maze'
-            putStrLn " "
+            mapM_ (\row -> putStrLn (concatMap (\c -> [c, ' ']) row)) maze'
+            putStrLn ""
         ) paths
