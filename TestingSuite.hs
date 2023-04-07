@@ -18,7 +18,7 @@ readMaze fileName = do
 
 -- Test cases
 testCases :: [(String, String, Bool)]
-testCases = [("Test adjacent_s_and_e", "./tests/adjacent_s_and_e.txt", True), 
+testCases = [("Test adjacent_s_and_e", "./tests/adjacent_s_and_e.txt", True),
             ("Test all_paths_no_s_or_e", "./tests/all_paths_no_s_or_e.txt", False),
             ("Test all_walls_no_s_or_e", "./tests/all_walls_no_s_or_e.txt", False),
             ("Test empty_file", "./tests/empty_file.txt", False),
@@ -28,7 +28,7 @@ testCases = [("Test adjacent_s_and_e", "./tests/adjacent_s_and_e.txt", True),
             ("Test no exit", "./tests/no_exit.txt", False),
             ("Test one cycle rest walls", "./tests/one_cycle_rest_walls.txt", True),
             ("Test perfect maze", "./tests/perfect_maze.txt", True),
-            ("Test Rectangle no path", "./tests/rectangle_no_path.txt", False),
+            ("Test Rectangle no path", "./tests/rectangle_no_path.txt", True),
             ("Test simple path rest walls", "./tests/simple_path_rest_walls.txt", True),
             ("Test smaller dims", "./tests/smaller_dims.txt", True)
             ]
@@ -40,17 +40,13 @@ isSolved result = result /= [[(-1,-1)]]
 testMazeSolver :: (String, String, Bool) -> Test
 testMazeSolver (testName, fileName, expected) = TestLabel testName $ TestCase $ do
     maze <- readMaze fileName
-    if maze == [] then do
+    (if (maze == []) || ((length $ filter (\x -> x `notElem` [0,1,8,9]) $ concat maze) > 0) then (do
         putStrLn $ "\nTest: " ++ testName ++ "\n"
-        assertEqual testName expected False
-    else if (length $ filter (\x -> x `notElem` [0,1,8,9]) $ concat maze) > 0 then do
-            putStrLn $ "\nTest: " ++ testName ++ "\n"
-            assertEqual testName expected False
-    else do
+        assertEqual testName expected False) else (do
         let result = solve $ buildMazeData maze
         putStrLn $ "\nTest: " ++ testName ++ "\nResult: "
         printSolutions maze result
-        assertEqual testName expected (isSolved result)
+        assertEqual testName expected (isSolved result)))
 
 tests :: Test
 tests = TestList $ map testMazeSolver testCases

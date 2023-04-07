@@ -7,9 +7,12 @@ solve mazeData = do
     let adjMatrix = getAdjMatrix mazeData
     let start = getStart mazeData
     let end = getEnd mazeData 
-    
     findPaths adjMatrix start end
-    
+
+
+--Depth first search
+--Adapted from https://gist.github.com/abhin4v/9fc8eff25c6b1a14b60e
+--and https://stackoverflow.com/questions/12739028/dfs-implementation-in-haskell
 findPaths :: AdjMatrix -> Coord -> Coord -> [[Coord]]
 findPaths adjMatrix start end = dfs [] [start]
     where 

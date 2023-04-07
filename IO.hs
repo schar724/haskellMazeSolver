@@ -4,10 +4,10 @@ import System.Console.ANSI
 import System.IO
 
 
-
+-- Opens the file associated with the filePath and converts in to a maze
 readMaze :: String -> IO Maze
-readMaze path = do
-  file <- openFile path ReadMode
+readMaze filePath = do
+  file <- openFile filePath ReadMode
   text <- hGetContents file
   let maze = map (map read . words) $ lines text
   if (length maze == 0) || (length (head maze) == 0) then
@@ -17,7 +17,7 @@ readMaze path = do
   else
     return maze
 
-
+-- Converts Integers to Characters while printing to the console
 printSolutions :: [[Int]] -> [[Coord]] -> IO ()
 printSolutions _ [] = putStr "no path found!\n"
 printSolutions maze paths = do
