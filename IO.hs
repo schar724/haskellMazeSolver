@@ -1,6 +1,22 @@
-module IO (printSolutions) where
+module IO (printSolutions,readMaze) where
 import DataTypes
 import System.Console.ANSI
+import System.IO
+
+
+
+readMaze :: String -> IO Maze
+readMaze path = do
+  file <- openFile path ReadMode
+  text <- hGetContents file
+  let maze = map (map read . words) $ lines text
+  if (length maze == 0) || (length (head maze) == 0) then
+    error "File is empty\n"
+  else if (length $ filter (\x -> x `notElem` [0,1,8,9]) $ concat maze) > 0 then
+    error "File contains invalid characters\n" 
+  else
+    return maze
+
 
 printSolutions :: [[Int]] -> [[Coord]] -> IO ()
 printSolutions _ [] = putStr "no path found!\n"
