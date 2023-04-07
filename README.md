@@ -1,5 +1,10 @@
 # haskellMazeSolver
 
+## How to get Green X's working
+It's a simple powershell command, this way the IO.hs will output green X's. I imagine if you dont do this then you will get compile errors.
+```powershell
+cabal install --lib ansi-terminal
+```
 
 ## Haskell Modularization Tutorial:
 To link files together in Haskell we want to use the import function like so:
